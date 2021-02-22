@@ -1,7 +1,30 @@
-import os
-import sys
+import argparse
 from subprocess import Popen, PIPE
 import re
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="plot active space orbitals from casscf orca job")
+
+    parser.add_argument('-b', '--basename', type=str,
+                        help='Basename of orca job')
+
+    parser.add_argument('-f', '--output_format', type=str,
+                        help='Output of plot files', default='.cube')
+
+    parser.add_argument('-i', '--mo_input_extension', type=str,
+                        help='file extension of MO input file', default='.gbw')
+
+    parser.add_argument('-n', '--ngrid', type=int,
+                        help='number of grid points', default='40')
+
+    parser.add_argument('-p', '--plot_type', type=int,
+                        help='plot type of output', default='mo')
+
+    args = parser.parse_args()
+
+    return args.basename, args.output_format, args.mo_input_extension, args.ngrid, args.plot_type
 
 
 def get_mo_range(out):
