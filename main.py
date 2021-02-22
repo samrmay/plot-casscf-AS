@@ -26,11 +26,17 @@ def generate_plot(p, mo, op, f, pt=1, ngrid=40):
     p.stdin.write(in_dat.encode())
 
 
-def main():
-    cmd = ['orca_plot', 'FeFeTHF+1_9_casscf_022121_locAS.gbw', '-i']
+def main(basename):
+    out_file = basename + '.out'
+    mo_file = basename + '.gbw'
+    cmd = ['orca_plot', mo_file, '-i']
+
+    orb_min, orb_max = get_mo_range(out_file)
+
     p = Popen(cmd, stdin=PIPE, stdout=PIPE)
-    generate_plot(p, 139, 0, 7)
+    for mo in range(orb_min, orb_max + 1):
+        generate_plot(p, mo, 0, 7)
     p.stdin.write('11\n'.encode())
 
 
-main()
+main('FeFeTHF+1_9_casscf_022121_locAS')
