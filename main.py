@@ -22,9 +22,12 @@ def parse_args():
     parser.add_argument('-p', '--plot_type', type=str,
                         help='plot type of output', default='mo')
 
+    parser.add_argument('-a', '--additional_orbitals', nargs='+',
+                        help='plot additional orbitals. Pass in space separated list', default=[])
+
     args = parser.parse_args()
 
-    return args.basename, args.output_format, args.mo_input_extension, args.ngrid, args.plot_type
+    return args.basename, args.output_format, args.mo_input_extension, args.ngrid, args.plot_type, args.additional_orbitals
 
 
 def get_mo_range(out):
@@ -57,7 +60,7 @@ def generate_plot(p, mo, op, f=7, pt=1, ngrid=40):
 
 
 def main():
-    basename, out_f, mo_in_ext, ngrid, pt = parse_args()
+    basename, out_f, mo_in_ext, ngrid, pt, additional_orbs = parse_args()
 
     out_file = basename + '.out'
     mo_file = basename + mo_in_ext
@@ -67,6 +70,10 @@ def main():
 
     p = Popen(cmd, stdin=PIPE, stdout=PIPE)
     for mo in range(orb_min, orb_max + 1):
+        generate_plot(p, mo, 0, FORMAT_DICT[out_f], PLOT_TYPE_DICT[pt], ngrid)
+
+    for mo in additional_orbs:
+        mo = int(mo)
         generate_plot(p, mo, 0, FORMAT_DICT[out_f], PLOT_TYPE_DICT[pt], ngrid)
     p.stdin.write('11\n'.encode())
 
