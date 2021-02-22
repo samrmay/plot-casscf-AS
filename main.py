@@ -7,7 +7,7 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description="plot active space orbitals from casscf orca job")
 
-    parser.add_argument('-b', '--basename', type=str,
+    parser.add_argument('basename', type=str,
                         help='Basename of orca job')
 
     parser.add_argument('-f', '--output_format', type=str,
@@ -19,7 +19,7 @@ def parse_args():
     parser.add_argument('-n', '--ngrid', type=int,
                         help='number of grid points', default='40')
 
-    parser.add_argument('-p', '--plot_type', type=int,
+    parser.add_argument('-p', '--plot_type', type=str,
                         help='plot type of output', default='mo')
 
     args = parser.parse_args()
