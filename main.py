@@ -71,4 +71,5 @@ def main():
     p.stdin.write('11\n'.encode())
 
 
-main()
+if __name__ == '__main__':
+    main()
